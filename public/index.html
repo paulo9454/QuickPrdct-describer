@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QuickPrdct-describer</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; max-width: 600px; margin: auto; }
+    textarea { width: 100%; height: 120px; margin-top: 10px; }
+    input, button { padding: 8px; margin-top: 10px; width: 100%; }
+  </style>
+</head>
+<body>
+  <h2>📝 QuickPrdct-describer</h2>
+
+  <label>Product Name:</label>
+  <input type="text" id="productName" placeholder="e.g. Smart Water Bottle" />
+
+  <label>Keywords:</label>
+  <input type="text" id="keywords" placeholder="e.g. hydration, temperature, health" />
+
+  <button onclick="generateDescription()">Generate Description</button>
+
+  <h3>Generated Description:</h3>
+  <textarea id="description" readonly></textarea>
+
+  <script>
+    async function generateDescription() {
+      const productName = document.getElementById('productName').value;
+      const keywords = document.getElementById('keywords').value;
+
+      const response = await fetch('/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productName, keywords }),
+      });
+
+      const data = await response.json();
+      document.getElementById('description').value = data.description || data.error || 'Error generating description.';
+    }
+  </script>
+</body>
+</html>
+
